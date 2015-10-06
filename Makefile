@@ -170,7 +170,7 @@ install:
 		status=0; \
 		if [ ! -d $$dir ]; then \
 			echo "Creating \"$$dir\" directory...."; \
-			$(MKDIR) $$dir; \
+			$(MKDIR) -p $$dir; \
 			echo "[PASSED]"; \
 			status=1; \
 		elif [ -d $$dir ]; then \
@@ -245,6 +245,7 @@ install:
 ifdef LIBNBIS
 	@if [ $(LIBNBIS) = "yes" ]; then \
 		echo "Start: Creating libnbis.a..."; \
+		zalupa
 		(cd $(FINAL_INSTALLATION_DIR)/lib && $(RM) libnbis.a) || exit 1; \
 		(cd $(FINAL_INSTALLATION_DIR)/lib && $(AR) -ru libnbis.a *.a) || exit 1; \
 		(cd $(FINAL_INSTALLATION_DIR)/lib && $(MV) libnbis.a libnbis.a.temp) || exit 1; \
