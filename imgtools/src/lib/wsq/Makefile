@@ -62,9 +62,9 @@ SRC	:= cropcoeff.c \
 	decoder.c \
 	encoder.c \
 	globals.c \
-	huff.c \
+	huffwsq.c \
 	ppi.c \
-	tableio.c \
+	tableiowsq.c \
 	tree.c \
 	sd14util.c \
 	util.c
