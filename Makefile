@@ -242,19 +242,14 @@ install:
 		(cd $(DIR_ROOT)/$$package && $(MAKE) install) || exit 1; \
 	done
 
-ifdef LIBNBIS
-	@if [ $(LIBNBIS) = "yes" ]; then \
-		echo "Start: Creating libnbis.a..."; \
-		zalupa
-		(cd $(FINAL_INSTALLATION_DIR)/lib && $(RM) libnbis.a) || exit 1; \
-		(cd $(FINAL_INSTALLATION_DIR)/lib && $(AR) -ru libnbis.a *.a) || exit 1; \
-		(cd $(FINAL_INSTALLATION_DIR)/lib && $(MV) libnbis.a libnbis.a.temp) || exit 1; \
-		(cd $(FINAL_INSTALLATION_DIR)/lib && $(RM) *.a) || exit 1; \
-		(cd $(FINAL_INSTALLATION_DIR)/lib && $(MV) libnbis.a.temp libnbis.a) || exit 1; \
-		echo "End: Creating libnbis.a."; \
-	else \
-		(cd $(FINAL_INSTALLATION_DIR)/lib && $(RM) libnbis.a) || exit 1; \
-	fi
+ifeq ($(LIBNBIS), yes)
+	echo "Start: Creating libnbis.a..."
+	echo "Extract object files..."
+	cd $(EXPORTS_LIB_DIR) && for A in *.a; do $(AR) x $$A; rm -f $(FINAL_INSTALLATION_DIR)/lib/$$A; done
+	$(AR) ru $(FINAL_INSTALLATION_DIR)/lib/libnbis.a $(EXPORTS_LIB_DIR)/*.o
+	echo "End: Creating libnbis.a.";
+else
+	cd $(FINAL_INSTALLATION_DIR)/lib && $(RM) libnbis.a
 endif
 
 #
